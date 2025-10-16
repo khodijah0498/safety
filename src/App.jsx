@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
-// Connected Quest Expanded Prototype
-// Multi-level interactive educational game for digital safety and trust
-// With teacher dashboard simulation
-
 export default function ConnectedQuest() {
   const levels = [
     {
@@ -107,30 +103,43 @@ export default function ConnectedQuest() {
   const final = levelIndex === levels.length - 1 && completed;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-100 via-white to-sky-50 p-6 flex flex-col items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-sky-100 via-white to-sky-50 p-3 sm:p-6 flex flex-col items-center justify-center">
       <motion.div
-        className="max-w-4xl w-full bg-white rounded-2xl shadow-xl p-8"
+        className="w-full max-w-4xl bg-white rounded-2xl shadow-xl p-4 sm:p-8"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <header className="flex justify-between items-center mb-6">
+        {/* Header */}
+        <header className="flex flex-col sm:flex-row justify-between items-center mb-6 text-center sm:text-left">
           <div>
-            <h1 className="text-2xl font-bold text-teal-700">Connected Quest</h1>
-            <p className="text-sm text-gray-600">Level {levelIndex + 1}: {level.title}</p>
+            <h1 className="text-xl sm:text-2xl font-bold text-teal-700">
+              Connected Quest
+            </h1>
+            <p className="text-xs sm:text-sm text-gray-600">
+              Level {levelIndex + 1}: {level.title}
+            </p>
           </div>
-          <div className="text-right">
-            <p className="text-sm text-gray-500">Score</p>
-            <p className="text-xl font-semibold text-teal-600">{score}</p>
+          <div className="mt-2 sm:mt-0 text-center sm:text-right">
+            <p className="text-xs sm:text-sm text-gray-500">Score</p>
+            <p className="text-lg sm:text-xl font-semibold text-teal-600">
+              {score}
+            </p>
           </div>
         </header>
 
+        {/* Instructions */}
         <section className="mb-6">
-          <h2 className="text-lg font-semibold text-gray-800">{level.title}</h2>
-          <p className="text-sm text-gray-600">{level.instructions}</p>
+          <h2 className="text-base sm:text-lg font-semibold text-gray-800 mb-1">
+            {level.title}
+          </h2>
+          <p className="text-xs sm:text-sm text-gray-600 leading-snug">
+            {level.instructions}
+          </p>
         </section>
 
-        <section className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Game Items */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           {level.items.map((it) => {
             const chosen = !!selected[it.id];
             return (
@@ -138,15 +147,21 @@ export default function ConnectedQuest() {
                 key={it.id}
                 onClick={() => toggleSelect(it.id)}
                 whileHover={{ scale: 1.05 }}
-                className={`flex items-center justify-between p-4 rounded-lg border transition-all focus:outline-none ${
-                  chosen ? "bg-teal-50 border-teal-400 shadow" : "bg-gray-50 border-gray-200"
+                className={`flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 sm:p-4 rounded-lg border transition-all text-left ${
+                  chosen
+                    ? "bg-teal-50 border-teal-400 shadow"
+                    : "bg-gray-50 border-gray-200"
                 }`}
               >
-                <div>
-                  <p className="font-medium text-gray-800">{it.label}</p>
-                  <p className="text-xs text-gray-500 mt-1">Click to select</p>
+                <div className="flex-1">
+                  <p className="text-xs sm:text-sm font-medium text-gray-800 break-words">
+                    {it.label}
+                  </p>
+                  <p className="text-[10px] sm:text-xs text-gray-500 mt-1">
+                    Click to select
+                  </p>
                 </div>
-                <div className="text-sm">
+                <div className="text-[11px] sm:text-sm mt-1 sm:mt-0 self-end sm:self-auto">
                   {completed ? (
                     it.safe ? (
                       <span className="text-green-600 font-semibold">✔</span>
@@ -164,25 +179,26 @@ export default function ConnectedQuest() {
           })}
         </section>
 
-        <section className="mt-8 flex flex-wrap items-center gap-3">
+        {/* Action Buttons */}
+        <section className="mt-6 flex flex-col sm:flex-row items-center gap-3">
           {!completed ? (
             <button
               onClick={submitLevel}
-              className="px-4 py-2 bg-teal-600 text-white rounded-md shadow hover:bg-teal-700"
+              className="w-full sm:w-auto px-4 py-2 bg-teal-600 text-white rounded-md shadow hover:bg-teal-700 text-sm sm:text-base"
             >
               Submit
             </button>
           ) : final ? (
             <button
               onClick={restart}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-md shadow hover:bg-indigo-700"
+              className="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md shadow hover:bg-indigo-700 text-sm sm:text-base"
             >
               Play Again
             </button>
           ) : (
             <button
               onClick={nextLevel}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-md shadow hover:bg-indigo-700"
+              className="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md shadow hover:bg-indigo-700 text-sm sm:text-base"
             >
               Next Level
             </button>
@@ -190,21 +206,26 @@ export default function ConnectedQuest() {
 
           <button
             onClick={() => setTeacherMode(!teacherMode)}
-            className="ml-auto px-4 py-2 border border-gray-300 rounded-md shadow hover:bg-gray-50"
+            className="w-full sm:w-auto sm:ml-auto px-4 py-2 border border-gray-300 rounded-md shadow hover:bg-gray-50 text-sm sm:text-base"
           >
             {teacherMode ? "Hide Dashboard" : "Teacher Dashboard"}
           </button>
         </section>
 
+        {/* Teacher Dashboard */}
         {teacherMode && (
           <motion.div
-            className="mt-8 p-4 bg-amber-50 border border-amber-200 rounded-md"
+            className="mt-6 p-3 sm:p-4 bg-amber-50 border border-amber-200 rounded-md text-sm sm:text-base"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            <h3 className="font-semibold text-amber-700 mb-2">Teacher Dashboard</h3>
-            <p className="text-sm text-gray-700 mb-2">Monitor learning outcomes and encourage discussion:</p>
-            <ul className="list-disc pl-5 text-sm text-gray-600">
+            <h3 className="font-semibold text-amber-700 mb-2 text-base sm:text-lg">
+              Teacher Dashboard
+            </h3>
+            <p className="text-xs sm:text-sm text-gray-700 mb-2">
+              Monitor learning outcomes and encourage discussion:
+            </p>
+            <ul className="list-disc pl-4 text-xs sm:text-sm text-gray-600 space-y-1">
               <li>Ask: What made this website look safe or unsafe?</li>
               <li>Have students share examples of kind online messages.</li>
               <li>Encourage reflection: How can we avoid phishing messages?</li>
@@ -213,7 +234,8 @@ export default function ConnectedQuest() {
           </motion.div>
         )}
 
-        <footer className="mt-6 text-center text-xs text-gray-400">
+        {/* Footer */}
+        <footer className="mt-6 text-center text-[10px] sm:text-xs text-gray-400">
           <p>Prototype created for Webfala Digital Skills for All Initiative</p>
         </footer>
       </motion.div>
